@@ -1,28 +1,32 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+/** @jsx jsx */
 
-class App extends Component {
-  render() {
+import {jsx, css} from "@emotion/core";
+
+import ListOfThings from "./components/ListOfThings";
+import Thing from "./components/Thing";
+
+const containerCss = css`
+    display: flex; 
+    height: 100vh;
+`;
+
+function App() {
+    const things1 = [
+        <Thing name={"Javascript"} key={"1"}/>,
+        <Thing name={"Macbook"} key={"2"}/>,
+        <Thing name={"Starcraft"} key={"3"}/>,
+        <Thing name={"Android"} key={"4"}/>,
+        <Thing name={"Korea"} key={"5"}/>,
+    ];
+
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+        <div css={containerCss}>
+            <ListOfThings>
+                {things1}
+            </ListOfThings>
+            <ListOfThings />
+        </div>
     );
-  }
 }
 
 export default App;
