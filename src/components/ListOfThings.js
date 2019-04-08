@@ -2,7 +2,7 @@
 
 import {Children, cloneElement, useState} from "react";
 import {jsx, css} from "@emotion/core";
-import draggingContext from './draggingContext';
+import draggingContext from "./draggingContext";
 
 const containerCss = css`
     display: flex;
@@ -23,6 +23,10 @@ function ListOfThings({children}) {
 
         const [element, clear] = draggingContext.current;
 
+        if(things.find(e => e.key === element.key)) {
+           return;
+        }
+
         clear();
         setThings(things.concat([element]));
     };
@@ -30,9 +34,7 @@ function ListOfThings({children}) {
     const onDragStartHandler = (getElement) => {
         return () => {
             const element = getElement();
-            console.log(element);
             const _things = things.filter(el => el.key !== element.key);
-            console.log(things);
             draggingContext.current = [element, () => setThings(_things)]
         }
     };
@@ -59,54 +61,3 @@ function ListOfThings({children}) {
 }
 
 export default ListOfThings;
-
-
-/*
-const genKey = () => {
-    return (Math.random() * 1000).toString();
-};
-*/
-
-
-/*const onDragStart = (getElement) => {
-    return () => {
-        onThingDrag(getElement());
-    };
-};
-
-const cloneAllChildren = () => {
-    return Children.map(children, (element, index) => {
-        return cloneElement(element, {
-            onDragStart: onDragStart(() => things[index]),
-        });
-    }) || [];
-};
-
-const [things, setThings] = useState(cloneAllChildren());
-
-const onThingDrag = (element) => {
-    const clear = () => {
-        console.log('calling clear', element);
-        console.log(things.filter(el => el !== element));
-        setThings(things.filter(el => el !== element));
-    };
-
-    setTimeout(() => {
-        draggingContext.current = [element, clear, (otherThing) => otherThing === things];
-    });
-};
-
-const onDrop = () => {
-    if (!draggingContext.current) {
-        return;
-    }
-    const [element, clear, same] = draggingContext.current;
-    addThing(element, clear, same);
-};
-
-const addThing = (element, clear, same) => {
-    if (!same(things)) {
-        setThings(things.concat([element]));
-        clear();
-    }
-};*/
